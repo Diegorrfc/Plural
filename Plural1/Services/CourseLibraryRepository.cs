@@ -33,10 +33,25 @@ namespace Plural1.Services
         {
            return _Context.Authors.ToList();
         }
+        public IEnumerable<Course> GetCoursesForAuthor(Guid id)
+        {
+            return _Context.Courses.Where(c => c.AuthorId == id).ToList();
+        }
+        public bool AuthorExist(Guid guid)
+        {
+            return _Context.Authors.Find(guid) != null;
+        }
+        public Course GetCourse(Guid authorId, Guid courseId)
+        {
+            return _Context.Courses.FirstOrDefault(n => n.AuthorId == authorId && n.Id == courseId);
+        }
         private void Dispose(bool v)
         {
            
         }
+
+      
+
         ~CourseLibraryRepository()
         {
             

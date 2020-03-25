@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Plural1.Helpers;
 using Plural1.Models;
@@ -12,29 +13,23 @@ namespace Plural1.Controllers
     public class AuthorsController : ControllerBase
     {
         private ICourseLibraryRepository _repository;
+        private readonly IMapper _mapper;
 
-        public AuthorsController(ICourseLibraryRepository repository)
+        public AuthorsController(ICourseLibraryRepository repository, IMapper mapper)
         {
             _repository = repository;
+            _mapper = mapper;
         }
 
         [HttpGet()]
-        public IActionResult GetAuthor()
+        public ActionResult<IEnumerable<AuthorDto>> GetAuthor()
         {
            var authorsFromRepository = _repository.GetAuthors();
-            var authorsDto = new List<AuthorDto>();
 
-            foreach (var item in authorsFromRepository)
-            {
-                authorsDto.Add(new AuthorDto()
-                {
-                      Name = $"{ item.FirstName}{item.LastName}",
-                       MainCategory = item.MainCategory,
-                       Id = item.Id,
-                       Age = item.DateOfBirth.GetCurrentAge()
-                });
-            }
-           return Ok(authorsFromRepository);
+           
+           List<AuthorDto>  authorsDto = _mapper.Map<List<AuthorDto>>(authorsFromRepository);
+
+           return Ok(authorsDto);
         }
     }
 }
