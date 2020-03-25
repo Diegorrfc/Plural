@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Plural1.Entities;
+using Plural1.ResourceParameters;
 
 namespace Plural1.Services
 {
@@ -11,5 +12,6 @@ namespace Plural1.Services
         IEnumerable<Course> GetCoursesForAuthor(Guid id);
         bool AuthorExist(Guid guid);
         Course GetCourse(Guid authorId, Guid courseId);
+        IEnumerable<Author> GetAuthors(AuthorResourceParamers authorResourceParamers);
     }
 }

@@ -4,6 +4,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Plural1.Helpers;
 using Plural1.Models;
+using Plural1.ResourceParameters;
 using Plural1.Services;
 
 namespace Plural1.Controllers
@@ -30,6 +31,18 @@ namespace Plural1.Controllers
            List<AuthorDto>  authorsDto = _mapper.Map<List<AuthorDto>>(authorsFromRepository);
 
            return Ok(authorsDto);
+        }
+        [HttpGet()]
+        public ActionResult<IEnumerable<AuthorDto>> GetAuthor([FromQuery]AuthorResourceParamers authorResourceParamers)
+        {
+            if (authorResourceParamers == null)
+                throw new ArgumentNullException(nameof(authorResourceParamers));
+
+            var authorsFromRepository = _repository.GetAuthors(authorResourceParamers);
+
+            List<AuthorDto> authorsDto = _mapper.Map<List<AuthorDto>>(authorsFromRepository);
+
+            return Ok(authorsDto);
         }
     }
 }

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Plural1.Context;
 using Plural1.Entities;
+using Plural1.ResourceParameters;
 
 namespace Plural1.Services
 {
@@ -50,7 +51,20 @@ namespace Plural1.Services
            
         }
 
-      
+        public IEnumerable<Author> GetAuthors(AuthorResourceParamers authorResourceParamers)
+        {
+            var collection = _Context.Authors as IQueryable<Author>;
+
+            if (!string.IsNullOrEmpty(authorResourceParamers.MainCategory))
+            {
+                collection = collection.Where(n => n.MainCategory == authorResourceParamers.MainCategory.Trim());
+            }
+            if (!string.IsNullOrEmpty(authorResourceParamers.FirstName))
+                collection = collection.Where(n => n.FirstName.Contains(authorResourceParamers.FirstName));
+
+            return collection.ToList();
+            
+        }
 
         ~CourseLibraryRepository()
         {
