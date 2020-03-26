@@ -70,6 +70,10 @@ namespace Plural1.Services
         {
             throw new NotImplementedException();
         }
+        public void AddCourse(Course course)
+        {
+            throw new NotImplementedException();
+        }
 
         public void CreateAuthor(Author author)
         {

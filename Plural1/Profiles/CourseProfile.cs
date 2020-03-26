@@ -9,7 +9,8 @@ namespace Plural1.Profiles
     {
         public CourseProfile()
         {
-            CreateMap<Course, CourseDto>();               
+            CreateMap<Course, CourseDto>();
+            CreateMap<CourseForCreationDto, Course>();
         }
     }
 }

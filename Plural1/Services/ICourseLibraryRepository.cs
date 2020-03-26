@@ -15,5 +15,6 @@ namespace Plural1.Services
         Course GetCourse(Guid authorId, Guid courseId);
         IEnumerable<Author> GetAuthors(AuthorResourceParamers authorResourceParamers);
         void CreateAuthor(Author author);
+        void AddCourse(Course course);
     }
 }

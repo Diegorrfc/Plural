@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Plural1.Entities;
 using Plural1.Models;
 using Plural1.Services;
 
@@ -30,7 +31,7 @@ namespace Plural1.Controllers
             return _mapper.Map<List<CourseDto>>(coursesFromRepo);
         }
 
-        [HttpGet("{courseId}")]
+        [HttpGet("{courseId}", Name = "GetCourseForAuthor")]
         public ActionResult<CourseDto> GetCourseForAuthor(Guid authorId, Guid courseId)
         {
             if (!_repository.AuthorExist(authorId))
@@ -42,6 +43,24 @@ namespace Plural1.Controllers
                 return NotFound();
 
             return _mapper.Map<CourseDto>(coursesFromRepo);
+        }
+        [HttpPost]
+        public ActionResult<CourseDto> CreateCourseForAuthor(Guid authorId, CourseForCreationDto courseForCreationDto)
+        {
+            if (!_repository.AuthorExist(authorId))
+                return NotFound();
+
+            if (courseForCreationDto == null)
+                throw new ArgumentNullException(nameof(courseForCreationDto));
+
+            var course =  _mapper.Map<Course>(courseForCreationDto);
+            course.AuthorId = authorId;
+
+            _repository.AddCourse(course);
+
+            var courseDto = _mapper.Map<CourseDto>(course);
+
+            return CreatedAtRoute("GetCourseForAuthor", new { courseId  = courseDto .Id, authorId = courseDto.AuthorId}, courseDto);
         }
 
     }
