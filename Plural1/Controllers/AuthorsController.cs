@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Plural1.Entities;
 using Plural1.Helpers;
 using Plural1.Models;
 using Plural1.ResourceParameters;
@@ -43,6 +44,26 @@ namespace Plural1.Controllers
             List<AuthorDto> authorsDto = _mapper.Map<List<AuthorDto>>(authorsFromRepository);
 
             return Ok(authorsDto);
+        }
+        [Route("authorId", Name = "GetAuthor")]
+        public ActionResult<AuthorDto> GetAuthor(Guid authorId)
+        {
+            if (authorId == Guid.Empty)
+                return BadRequest();
+
+           return _mapper.Map<AuthorDto>(_repository.GetAuthor(authorId));
+        }
+        public ActionResult<AuthorDto> CreateAuthor(AuthorForCreationDto authorForCreationDto)
+        {
+            if (authorForCreationDto == null)
+                return BadRequest();
+
+           var author =  _mapper.Map<Author>(authorForCreationDto);
+           var authorToReturn = _mapper.Map<AuthorDto>(author);
+           _repository.CreateAuthor(author);
+
+            return CreatedAtRoute("", new { authorId = author.Id }, authorToReturn);
+
         }
     }
 }

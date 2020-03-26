@@ -66,6 +66,16 @@ namespace Plural1.Services
             
         }
 
+        public Author GetAuthor(Guid id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void CreateAuthor(Author author)
+        {
+            throw new NotImplementedException();
+        }
+
         ~CourseLibraryRepository()
         {
             

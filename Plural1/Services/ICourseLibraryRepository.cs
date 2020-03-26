@@ -10,8 +10,10 @@ namespace Plural1.Services
     {
         IEnumerable<Author> GetAuthors();
         IEnumerable<Course> GetCoursesForAuthor(Guid id);
+        Author GetAuthor(Guid id);
         bool AuthorExist(Guid guid);
         Course GetCourse(Guid authorId, Guid courseId);
         IEnumerable<Author> GetAuthors(AuthorResourceParamers authorResourceParamers);
+        void CreateAuthor(Author author);
     }
 }
