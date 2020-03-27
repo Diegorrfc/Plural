@@ -68,16 +68,21 @@ namespace Plural1.Services
 
         public Author GetAuthor(Guid id)
         {
-            throw new NotImplementedException();
+           return _Context.Authors.Find(id);
         }
         public void AddCourse(Course course)
         {
-            throw new NotImplementedException();
+            _Context.Courses.Add(course);            
         }
 
         public void CreateAuthor(Author author)
         {
-            throw new NotImplementedException();
+            author.Id = Guid.NewGuid();
+            foreach (var item in author.Courses)
+            {
+                item.Id = Guid.NewGuid();
+            }
+            _Context.Authors.Add(author);           
         }
 
         ~CourseLibraryRepository()
